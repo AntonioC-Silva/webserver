@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="styles.css"/>
+    <title>TragiFilmes</title>
+</head>
+<body>
+    <img src="logo.png" alt="Logo Tragifilmes">
+    <section class="card">
+        <form class="login" action="/cadastro" method="post">
+            <h2>Cadastre seu Filme</h2>
+            <p>Nome do Filme:</p>
+            <input type="text" name="nome" placeholder="Digite o nome do filme" class="inputs"/>
+            <p>Atores:</p>
+            <input type="text" name="atores" placeholder="Digite os atores" class="inputs"/>
+            <p>Diretor:</p>
+            <input type="text" name="diretor" placeholder="Digite o diretor" class="inputs"/>
+            <p>Ano:</p>
+            <input type="number" name="ano" placeholder="Digite o ano" class="inputs"/>
+            <p>Gênero:</p>
+            <input type="text" name="genero" placeholder="Digite o gênero" class="inputs"/>
+            <p>Produtora:</p>
+            <input type="text" name="produtora" placeholder="Digite a produtora" class="inputs"/>
+            <p>Sinopse:</p>
+            <textarea name="sinopse" placeholder="Digite a sinopse" class="inputs"></textarea>
+            <button type="submit">
+                Cadastrar
+            </button>
+            <a href="/ListarFilmes"><button type="button">Visualizar</button></a>
+        </form>
+    </section> 
+</body>
+</html>

@@ -1,0 +1,254 @@
+[
+    {
+        "nome": "A Origem",
+        "ano": "2010",
+        "diretor": "Christopher",
+        "genero": "Ficção Científica",
+        "produtora": "Warner Bros. Pictures",
+        "atores": "Leonardo",
+        "sinopse": null
+    },
+    {
+        "nome": "Barbie",
+        "ano": "2023",
+        "diretor": "Greta",
+        "genero": "Comédia",
+        "produtora": "20th Century Fox",
+        "atores": "Margot",
+        "sinopse": null
+    },
+    {
+        "nome": "Jurassic Park",
+        "ano": "1993",
+        "diretor": "Steven",
+        "genero": "Aventura",
+        "produtora": "Universal Pictures",
+        "atores": "Tom",
+        "sinopse": null
+    },
+    {
+        "nome": "Pulp Fiction",
+        "ano": "1994",
+        "diretor": "Quentin",
+        "genero": "Suspense",
+        "produtora": "Paramount Pictures",
+        "atores": "Brad",
+        "sinopse": null
+    },
+    {
+        "nome": "Mulher-Maravilha",
+        "ano": "2017",
+        "diretor": "Patty",
+        "genero": "Ação",
+        "produtora": "Walt Disney Pictures",
+        "atores": "Gal",
+        "sinopse": null
+    },
+    {
+        "nome": "Cidade de Deus",
+        "ano": "2002",
+        "diretor": "Fernando",
+        "genero": "Drama",
+        "produtora": "Globo Filmes",
+        "atores": "Tais",
+        "sinopse": null
+    },
+    {
+        "nome": "Duna",
+        "ano": "2021",
+        "diretor": "Denis",
+        "genero": "Ficção Científica",
+        "produtora": "Sony Pictures",
+        "atores": "Leonardo",
+        "sinopse": null
+    },
+    {
+        "nome": "Parasita",
+        "ano": "2019",
+        "diretor": "Bong",
+        "genero": "Drama",
+        "produtora": "Studio Ghibli",
+        "atores": "Daniel",
+        "sinopse": null
+    },
+    {
+        "nome": "O Resgate do Soldado Ryan",
+        "ano": "1998",
+        "diretor": "Steven",
+        "genero": "Drama",
+        "produtora": "Universal Pictures",
+        "atores": "Tom",
+        "sinopse": null
+    },
+    {
+        "nome": "Interestelar",
+        "ano": "2014",
+        "diretor": "Christopher",
+        "genero": "Ficção Científica",
+        "produtora": "Warner Bros. Pictures",
+        "atores": "Leonardo",
+        "sinopse": null
+    },
+    {
+        "nome": "Django Livre",
+        "ano": "2012",
+        "diretor": "Quentin",
+        "genero": "Ação",
+        "produtora": "20th Century Fox",
+        "atores": "Brad",
+        "sinopse": null
+    },
+    {
+        "nome": "Adoráveis Mulheres",
+        "ano": "2019",
+        "diretor": "Greta",
+        "genero": "Drama",
+        "produtora": "Netflix",
+        "atores": "Meryl",
+        "sinopse": null
+    },
+    {
+        "nome": "A Chegada",
+        "ano": "2016",
+        "diretor": "Denis",
+        "genero": "Ficção Científica",
+        "produtora": "Universal Pictures",
+        "atores": "Sandra",
+        "sinopse": null
+    },
+    {
+        "nome": "O Hospedeiro",
+        "ano": "2006",
+        "diretor": "Bong",
+        "genero": "Terror",
+        "produtora": "Studio Ghibli",
+        "atores": "Keanu",
+        "sinopse": null
+    },
+    {
+        "nome": "Prenda-me Se For Capaz",
+        "ano": "2002",
+        "diretor": "Steven",
+        "genero": "Suspense",
+        "produtora": "Paramount Pictures",
+        "atores": "Leonardo",
+        "sinopse": null
+    },
+    {
+        "nome": "360",
+        "ano": "2012",
+        "diretor": "Fernando",
+        "genero": "Drama",
+        "produtora": "Globo Filmes",
+        "atores": "Tais",
+        "sinopse": null
+    },
+    {
+        "nome": "Oppenheimer",
+        "ano": "2023",
+        "diretor": "Christopher",
+        "genero": "Drama",
+        "produtora": "BBC Films",
+        "atores": "Leonardo",
+        "sinopse": null
+    },
+    {
+        "nome": "Bastardos Inglórios",
+        "ano": "2009",
+        "diretor": "Quentin",
+        "genero": "Ação",
+        "produtora": "20th Century Fox",
+        "atores": "Brad",
+        "sinopse": null
+    },
+    {
+        "nome": "Mulher-Maravilha 1984",
+        "ano": "2020",
+        "diretor": "Patty",
+        "genero": "Ação",
+        "produtora": "Walt Disney Pictures",
+        "atores": "Gal",
+        "sinopse": null
+    },
+    {
+        "nome": "Blade Runner 2049",
+        "ano": "2017",
+        "diretor": "Denis",
+        "genero": "Ficção Científica",
+        "produtora": "Sony Pictures",
+        "atores": "Ryan",
+        "sinopse": null
+    },
+    {
+        "nome": "divertidamente",
+        "ano": "2000",
+        "diretor": "",
+        "genero": "",
+        "produtora": "",
+        "atores": "",
+        "sinopse": null
+    },
+    {
+        "nome": "Antonio",
+        "ano": "2000",
+        "diretor": "",
+        "genero": "",
+        "produtora": "",
+        "atores": "",
+        "sinopse": null
+    },
+    {
+        "nome": "Antonio",
+        "ano": "2000",
+        "diretor": "sdfsdfs",
+        "genero": "coemdida",
+        "produtora": "afawefa",
+        "atores": " dsfdfs",
+        "sinopse": "afwfaew"
+    },
+    {
+        "nome": "Antonio",
+        "ano": "2000",
+        "diretor": "sdfsdfs",
+        "genero": "coemdida",
+        "produtora": "afawefa",
+        "atores": " dsfdfs",
+        "sinopse": "afwfaew"
+    },
+    {
+        "nome": "Antonio",
+        "ano": "2000",
+        "diretor": "sdfsdfs",
+        "genero": "coemdida",
+        "produtora": "afawefa",
+        "atores": " dsfdfs",
+        "sinopse": "afwfaew"
+    },
+    {
+        "nome": "Antonio",
+        "ano": "2000",
+        "diretor": "sdfsdfs",
+        "genero": "coemdida",
+        "produtora": "afawefa",
+        "atores": " dsfdfs",
+        "sinopse": "afwfaew"
+    },
+    {
+        "nome": "batma",
+        "ano": "2000",
+        "diretor": "sdfsdfs",
+        "genero": "coemdida",
+        "produtora": "afawefa",
+        "atores": " dsfdfs",
+        "sinopse": "afwfaew"
+    },
+    {
+        "nome": "batma",
+        "ano": "2000",
+        "diretor": "sdfsdfs",
+        "genero": "coemdida",
+        "produtora": "afawefa",
+        "atores": " dsfdfs",
+        "sinopse": "afwfaew"
+    }
+]
