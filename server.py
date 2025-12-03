@@ -18,40 +18,52 @@ def conectar_banco():
     )
 
 def listar_filmes_banco():
-    conexao = conectar_banco()
-    cursor = conexao.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM filme;")
-    rows = cursor.fetchall()
-    cursor.close()
-    conexao.close()
-    return rows
+    try:
+        conexao = conectar_banco()
+        cursor = conexao.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM filme;")
+        rows = cursor.fetchall()
+        cursor.close()
+        conexao.close()
+        return rows
+    except mysql.connector.Error as err:
+        print(f"Erro no banco: {err}")
+        return []
 
 def buscar_nome_por_id(tabela, coluna_id, id_valor):
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    colunas = {
-        "ator": "nome",
-        "diretor": "nome",
-        "linguagem": "idioma",
-        "genero": "tipo",
-        "produtora": "nome"
-    }
-    coluna_nome = colunas.get(tabela, "nome")
-    cursor.execute(f"SELECT {coluna_nome} FROM {tabela} WHERE {coluna_id} = %s", (id_valor,))
-    resultado = cursor.fetchone()
-    cursor.close()
-    conexao.close()
-    return resultado[0] if resultado else ""
+    try:
+        conexao = conectar_banco()
+        cursor = conexao.cursor()
+        colunas = {
+            "ator": "nome",
+            "diretor": "nome",
+            "linguagem": "idioma",
+            "genero": "tipo",
+            "produtora": "nome"
+        }
+        coluna_nome = colunas.get(tabela, "nome")
+        cursor.execute(f"SELECT {coluna_nome} FROM {tabela} WHERE {coluna_id} = %s", (id_valor,))
+        resultado = cursor.fetchone()
+        cursor.close()
+        conexao.close()
+        return resultado[0] if resultado else ""
+    except mysql.connector.Error as err:
+        print(f"Erro ao buscar ID: {err}")
+        return ""
 
 def verificar_filme_existe(titulo):
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-    sql = "SELECT count(*) FROM filme WHERE titulo = %s"
-    cursor.execute(sql, (titulo,))
-    resultado = cursor.fetchone()
-    cursor.close()
-    conexao.close()
-    return resultado[0] > 0
+    try:
+        conexao = conectar_banco()
+        cursor = conexao.cursor()
+        sql = "SELECT count(*) FROM filme WHERE titulo = %s"
+        cursor.execute(sql, (titulo,))
+        resultado = cursor.fetchone()
+        cursor.close()
+        conexao.close()
+        return resultado[0] > 0
+    except mysql.connector.Error as err:
+        print(f"Erro ao verificar duplicidade: {err}")
+        return False
 
 def inserir_filme_banco(filme):
     conexao = conectar_banco()
@@ -74,7 +86,6 @@ def inserir_filme_banco(filme):
     cursor.close()
     conexao.close()
 
-    
 caminho_base = os.path.dirname(os.path.abspath(__file__))
 arquivo_json = os.path.join(caminho_base, "filmes.json")
 
@@ -119,7 +130,6 @@ class MyHandle(SimpleHTTPRequestHandler):
             })
         salvar_filmes(filmes_db)
         return filmes_db
-
 
     def login(self, usuario, senha):
         usuario_valido = "antonio"
@@ -172,35 +182,47 @@ class MyHandle(SimpleHTTPRequestHandler):
                 self.send_header("Content-type", "text/html; charset=utf-8")
                 self.end_headers()
                 self.wfile.write(status_login.encode('utf-8'))
+
         elif self.path == '/cadastro':
             tamanho = int(self.headers['Content-Length'])
             dados = parse_qs(self.rfile.read(tamanho).decode('utf-8'))
 
             nome = dados.get('nome', [""])[0].strip()
             ano = dados.get('ano', [""])[0].strip()
+            atores = dados.get('atores', [""])[0].strip()
+            diretor = dados.get('diretor', [""])[0].strip()
+            genero = dados.get('genero', [""])[0].strip()
+            produtora = dados.get('produtora', [""])[0].strip()
+            sinopse = dados.get('sinopse', [""])[0].strip()
             
-            if not nome or not ano.isdigit() or len(ano) != 4:
+            if (not nome or not ano.isdigit() or len(ano) != 4 or 
+                not atores or not diretor or not genero or not produtora or not sinopse):
+                
                 self.send_response(400)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
-                self.wfile.write(json.dumps({"mensagem": "Erro: Nome é obrigatório e Ano deve ser com pelo menos (4 dígitos)."}).encode('utf-8'))
+                self.wfile.write(json.dumps({
+                    "mensagem": "Erro: Todos os campos são obrigatórios e o Ano deve ter 4 dígitos."
+                }).encode('utf-8'))
                 return
 
             if verificar_filme_existe(nome):
-                self.send_response(409) 
+                self.send_response(409)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
-                self.wfile.write(json.dumps({"mensagem": f"O filme '{nome}' já existe!"}).encode('utf-8'))
+                self.wfile.write(json.dumps({
+                    "mensagem": f"Erro: O filme '{nome}' já está cadastrado!"
+                }).encode('utf-8'))
                 return
 
             novo_filme = {
                 "nome": nome,
                 "ano": ano,
-                "atores": dados.get('atores', [""])[0].strip(),
-                "diretor": dados.get('diretor', [""])[0].strip(),
-                "genero": dados.get('genero', [""])[0].strip(),
-                "produtora": dados.get('produtora', [""])[0].strip(),
-                "sinopse": dados.get('sinopse', [""])[0].strip()
+                "atores": atores,
+                "diretor": diretor,
+                "genero": genero,
+                "produtora": produtora,
+                "sinopse": sinopse
             }
 
             try:
@@ -210,17 +232,19 @@ class MyHandle(SimpleHTTPRequestHandler):
                 filmes.append(novo_filme)
                 salvar_filmes(filmes)
 
-                self.send_response(201) 
+                self.send_response(201)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
-                self.wfile.write(json.dumps({"mensagem": "Filme cadastrado com sucesso!"}).encode('utf-8'))
+                self.wfile.write(json.dumps({
+                    "mensagem": "Filme cadastrado com sucesso!"
+                }).encode('utf-8'))
             
             except Exception as e:
-                print(f"Erro: {e}")
+                print(f"Erro interno: {e}")
                 self.send_response(500) 
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
-                self.wfile.write(json.dumps({"mensagem": "Erro interno ao salvar."}).encode('utf-8'))
+                self.wfile.write(json.dumps({"mensagem": "Erro interno ao salvar o filme."}).encode('utf-8'))
 
         elif self.path == '/delete':
             tamanho_conteudo = int(self.headers['Content-Length'])
@@ -238,6 +262,7 @@ class MyHandle(SimpleHTTPRequestHandler):
             self.send_header("Content-type", "text/plain; charset=utf-8")
             self.end_headers()
             self.wfile.write(resposta.encode('utf-8'))
+
         elif self.path == '/edit':
             tamanho_conteudo = int(self.headers['Content-Length'])
             corpo = self.rfile.read(tamanho_conteudo).decode('utf-8')
