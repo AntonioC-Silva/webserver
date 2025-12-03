@@ -97,5 +97,34 @@ async function editarFilme(index) {
     alert("Não foi possível editar o filme.");
   }
 }
+
+async function cadastrarFilme(event) {
+    event.preventDefault(); 
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const params = new URLSearchParams(formData);
+
+    try {
+        const resposta = await fetch("/cadastro", {
+            method: "POST",
+            body: params
+        });
+
+
+        const dados = await resposta.json();
+
+        if (resposta.ok) {
+            alert(dados.mensagem);
+            window.location.href = "/ListarFilmes"; 
+        } else {
+            alert("Atenção: " + dados.mensagem);
+        }
+
+    } catch (erro) {
+        console.error("Erro:", erro);
+        alert("Erro ao tentar cadastrar. Verifique o servidor.");
+    }
+}
  
 document.addEventListener("DOMContentLoaded", carregarFilmes);

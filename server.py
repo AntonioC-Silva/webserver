@@ -43,6 +43,16 @@ def buscar_nome_por_id(tabela, coluna_id, id_valor):
     conexao.close()
     return resultado[0] if resultado else ""
 
+def verificar_filme_existe(titulo):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    sql = "SELECT count(*) FROM filme WHERE titulo = %s"
+    cursor.execute(sql, (titulo,))
+    resultado = cursor.fetchone()
+    cursor.close()
+    conexao.close()
+    return resultado[0] > 0
+
 def inserir_filme_banco(filme):
     conexao = conectar_banco()
     cursor = conexao.cursor()
@@ -163,25 +173,55 @@ class MyHandle(SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(status_login.encode('utf-8'))
         elif self.path == '/cadastro':
-            tamanho_conteudo = int(self.headers['Content-Length'])
-            corpo = self.rfile.read(tamanho_conteudo).decode('utf-8')
-            dados_formulario = parse_qs(corpo)
+            tamanho = int(self.headers['Content-Length'])
+            dados = parse_qs(self.rfile.read(tamanho).decode('utf-8'))
+
+            nome = dados.get('nome', [""])[0].strip()
+            ano = dados.get('ano', [""])[0].strip()
+            
+            if not nome or not ano.isdigit() or len(ano) != 4:
+                self.send_response(400)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"mensagem": "Erro: Nome é obrigatório e Ano deve ser com pelo menos (4 dígitos)."}).encode('utf-8'))
+                return
+
+            if verificar_filme_existe(nome):
+                self.send_response(409) 
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"mensagem": f"O filme '{nome}' já existe!"}).encode('utf-8'))
+                return
+
             novo_filme = {
-                "nome": dados_formulario.get('nome', [""])[0],
-                "atores": dados_formulario.get('atores', [""])[0],
-                "diretor": dados_formulario.get('diretor', [""])[0],
-                "ano": dados_formulario.get('ano', [""])[0],
-                "genero": dados_formulario.get('genero', [""])[0],
-                "produtora": dados_formulario.get('produtora', [""])[0],
-                "sinopse": dados_formulario.get('sinopse', [""])[0]
+                "nome": nome,
+                "ano": ano,
+                "atores": dados.get('atores', [""])[0].strip(),
+                "diretor": dados.get('diretor', [""])[0].strip(),
+                "genero": dados.get('genero', [""])[0].strip(),
+                "produtora": dados.get('produtora', [""])[0].strip(),
+                "sinopse": dados.get('sinopse', [""])[0].strip()
             }
-            inserir_filme_banco(novo_filme)
-            filmes = carregar_filmes()
-            filmes.append(novo_filme)
-            salvar_filmes(filmes)
-            self.send_response(302)
-            self.send_header('Location', '/ListarFilmes')
-            self.end_headers()
+
+            try:
+                inserir_filme_banco(novo_filme)
+                
+                filmes = carregar_filmes()
+                filmes.append(novo_filme)
+                salvar_filmes(filmes)
+
+                self.send_response(201) 
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"mensagem": "Filme cadastrado com sucesso!"}).encode('utf-8'))
+            
+            except Exception as e:
+                print(f"Erro: {e}")
+                self.send_response(500) 
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"mensagem": "Erro interno ao salvar."}).encode('utf-8'))
+
         elif self.path == '/delete':
             tamanho_conteudo = int(self.headers['Content-Length'])
             corpo = self.rfile.read(tamanho_conteudo).decode('utf-8')
